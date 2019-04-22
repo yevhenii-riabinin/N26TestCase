@@ -1,0 +1,58 @@
+<!--
+ - Created by Eugene on 20.04.2019.
+ -->
+
+<aura:component implements="force:hasRecordId,force:hasSObjectName,flexipage:availableForRecordHome" controller="ContactProductController" description="ContactProduct">
+    <aura:attribute name="productDetails" type="Product_Details__c" />
+    <aura:attribute name="currencyCode" type="String" default="EUR" />
+
+    <aura:handler name="init" value="{!this}" action="{!c.init}"/>
+
+    <lightning:card title="Product Details">
+        <div class="slds-form" role="list">
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <span class="slds-form-element__label">Product Name</span>
+                        <lightning:formattedText value="{!v.productDetails.Product__r.Name}" />
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <span class="slds-form-element__label">Cost per Calendar Month</span>
+                        <aura:if isTrue="{!v.productDetails.Cost_per_Calendar_Month__c != null}">
+                            <lightning:formattedNumber value="{!v.productDetails.Cost_per_Calendar_Month__c}" style="currency" currencyCode="{!v.currencyCode}" />
+                            <aura:set attribute="else">
+                                <lightning:formattedText value="N/a" />
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+            <div class="slds-form__row">
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <span class="slds-form-element__label">ATM Fee in other currencies</span>
+                        <aura:if isTrue="{!v.productDetails.ATM_Fee_in_other_currencies__c != null}">
+                            <lightning:formattedNumber value="{!v.productDetails.ATM_Fee_in_other_currencies__c / 100}" style="percent" maximumFractionDigits="1" />
+                            <aura:set attribute="else">
+                                <lightning:formattedText value="Free" />
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="slds-form__item" role="listitem">
+                    <div class="slds-form-element slds-form-element_edit slds-form-element_readonly slds-form-element_horizontal slds-hint-parent">
+                        <span class="slds-form-element__label">Card Replacement Cost</span>
+                        <aura:if isTrue="{!v.productDetails.Card_Replacement_Cost__c != null}">
+                            <lightning:formattedNumber value="{!v.productDetails.Card_Replacement_Cost__c}" style="currency" currencyCode="{!v.currencyCode}" />
+                            <aura:set attribute="else">
+                                <lightning:formattedText value="N/a" />
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </lightning:card>
+</aura:component>
